@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Habit Tracker - Achievements</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Copy the exact same CSS from home.html */
+        :root {
+            --primary-color: #4e54c8;
+            --secondary-color: #8f94fb;
+            --accent-color: #ff7e5f;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --card-bg: #ffffff;
+            --body-bg: #f5f7ff;
+            --text-color: #333333;
+            --border-radius: 12px;
+            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+            --border-color: #e0e0e0;
+        }
+
+        .theme-blue {
+            --primary-color: #4e54c8;
+            --secondary-color: #8f94fb;
+            --body-bg: #f5f7ff;
+        }
+
+        .theme-green {
+            --primary-color: #2ecc71;
+            --secondary-color: #1abc9c;
+            --body-bg: #f0f9f4;
+        }
+
+        .theme-purple {
+            --primary-color: #9b59b6;
+            --secondary-color: #8e44ad;
+            --body-bg: #f8f5fc;
+        }
+
+        .theme-orange {
+            --primary-color: #e67e22;
+            --secondary-color: #d35400;
+            --body-bg: #fef9f3;
+        }
+
+        .theme-dark {
+            --primary-color: #bb86fc;
+            --secondary-color: #3700b3;
+            --accent-color: #03dac6;
+            --light-color: #1e1e1e;
+            --dark-color: #e0e0e0;
+            --success-color: #4caf50;
+            --warning-color: #ff9800;
+            --danger-color: #f44336;
+            --card-bg: #2d2d2d;
+            --body-bg: #121212;
+            --text-color: #e0e0e0;
+            --border-color: #444;
+        }
+
+        .theme-dark-btn { 
+            background: linear-gradient(to right, #121212, #2d2d2d); 
+            border: 2px solid #444;
+        }
+
+        .theme-dark .card {
+            border: 1px solid var(--border-color);
+        }
+
+        .theme-dark header {
+            border-bottom-color: var(--border-color);
+        }
+
+        .theme-dark footer {
+            border-top-color: var(--border-color);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--body-bg);
+            color: var(--text-color);
+            transition: var(--transition);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .welcome-message {
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .theme-selector {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .theme-btn {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            border: 2px solid white;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .theme-blue-btn { background: linear-gradient(to right, #4e54c8, #8f94fb); }
+        .theme-green-btn { background: linear-gradient(to right, #2ecc71, #1abc9c); }
+        .theme-purple-btn { background: linear-gradient(to right, #9b59b6, #8e44ad); }
+        .theme-orange-btn { background: linear-gradient(to right, #e67e22, #d35400); }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 20px;
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+        }
+
+        .section-title {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            margin-left: 20px;
+        }
+
+        .nav-link {
+            color: var(--text-color);
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .nav-link:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .nav-link.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .btn-primary {
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        /* Profile Dropdown Styles */
+        .profile-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .profile-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 20px;
+            transition: var(--transition);
+        }
+
+        .profile-btn:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .theme-dark .profile-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .profile-dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 100%;
+            background-color: var(--card-bg);
+            min-width: 200px;
+            box-shadow: var(--box-shadow);
+            border-radius: var(--border-radius);
+            z-index: 1000;
+            margin-top: 5px;
+            border: 1px solid var(--border-color, #eee);
+        }
+
+        .profile-dropdown-content.show {
+            display: block;
+        }
+
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            text-decoration: none;
+            color: var(--text-color);
+            border-bottom: 1px solid var(--border-color, #eee);
+            transition: var(--transition);
+        }
+
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-item:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .dropdown-item i {
+            width: 16px;
+            text-align: center;
+        }
+
+        .dropdown-header {
+            padding: 12px 15px;
+            font-weight: 600;
+            color: var(--primary-color);
+            border-bottom: 1px solid var(--border-color, #eee);
+        }
+
+        .user-details {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-details .user-avatar {
+            width: 32px;
+            height: 32px;
+            font-size: 14px;
+        }
+
+        .user-info-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .user-email {
+            font-size: 12px;
+            color: #666;
+            margin-top: 2px;
+        }
+
+        .theme-dark .user-email {
+            color: #aaa;
+        }
+
+        /* Achievements specific styles */
+        .achievement-card {
+            text-align: center;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            background: var(--card-bg);
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+        }
+
+        .achievement-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .achievement-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: white;
+        }
+
+        .achievement-locked {
+            background: #ccc !important;
+            color: #888 !important;
+        }
+
+        .achievement-bronze { background: linear-gradient(to right, #cd7f32, #8b4513); }
+        .achievement-silver { background: linear-gradient(to right, #c0c0c0, #a8a8a8); }
+        .achievement-gold { background: linear-gradient(to right, #ffd700, #daa520); }
+        .achievement-platinum { background: linear-gradient(to right, #e5e4e2, #b6b6b6); }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #888;
+            font-size: 14px;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 992px) {
+            .dashboard {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .nav-links {
+                margin-left: 0;
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body class="theme-blue">
+    <div class="container">
+        <header>
+            <div>
+                <div class="logo">HabitTracker</div>
+                <div class="theme-selector">
+                    <div class="theme-btn theme-blue-btn" onclick="changeTheme('blue')"></div>
+                    <div class="theme-btn theme-green-btn" onclick="changeTheme('green')"></div>
+                    <div class="theme-btn theme-purple-btn" onclick="changeTheme('purple')"></div>
+                    <div class="theme-btn theme-orange-btn" onclick="changeTheme('orange')"></div>
+                    <div class="theme-btn theme-dark-btn" onclick="changeTheme('dark')"></div>
+                </div>
+            </div>
+            <div class="user-info">
+                <div class="nav-links">
+                    <a href="home.html" class="nav-link">Dashboard</a>
+                    <a href="habits.html" class="nav-link">Habits</a>
+                    <a href="groups.html" class="nav-link">Groups</a>
+                    <a href="analytics.html" class="nav-link">Analytics</a>
+                    <a href="about.html" class="nav-link">About</a>
+                </div>
+                
+                <!-- Profile Dropdown -->
+                <div class="profile-dropdown">
+                    <button class="profile-btn" onclick="toggleProfileDropdown()">
+                        <div class="user-avatar">U</div>
+                        <span class="welcome-message">Welcome back, User!</span>
+                        <i class="fas fa-chevron-down" style="font-size: 12px;"></i>
+                    </button>
+                    <div class="profile-dropdown-content" id="profileDropdown">
+                        <div class="dropdown-header">My Account</div>
+                        <div class="dropdown-item">
+                            <div class="user-details">
+                                <div class="user-avatar">U</div>
+                                <div class="user-info-text">
+                                    <span class="user-name">Demo User</span>
+                                    <span class="user-email">user@example.com</span>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="profile.html" class="dropdown-item">
+                            <i class="fas fa-user"></i>
+                            <span>Profile</span>
+                        </a>
+                        <a href="settings.html" class="dropdown-item">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                        </a>
+                        <a href="achievements.html" class="dropdown-item">
+                            <i class="fas fa-trophy"></i>
+                            <span>Achievements</span>
+                        </a>
+                        <div class="dropdown-header">Appearance</div>
+                        <a href="#" class="dropdown-item" onclick="changeTheme('blue')">
+                            <i class="fas fa-palette"></i>
+                            <span>Blue Theme</span>
+                        </a>
+                        <a href="#" class="dropdown-item" onclick="changeTheme('dark')">
+                            <i class="fas fa-moon"></i>
+                            <span>Dark Mode</span>
+                        </a>
+                        <div class="dropdown-header">Actions</div>
+                        <a href="#" class="dropdown-item" onclick="logout()">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="dashboard">
+            <div class="card" style="grid-column: span 4; text-align: center;">
+                <h1 class="section-title"><i class="fas fa-trophy"></i> Your Achievements</h1>
+                <p style="color: #666; margin-bottom: 20px;">Track your progress and unlock rewards for your consistency</p>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 20px;">
+                    <div class="achievement-card">
+                        <div class="achievement-icon achievement-gold">
+                            <i class="fas fa-fire"></i>
+                        </div>
+                        <h3>7-Day Streak</h3>
+                        <p>Complete habits for 7 consecutive days</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%"></div>
+                        </div>
+                        <span style="color: var(--success-color); font-weight: bold;">Unlocked!</span>
+                    </div>
+
+                    <div class="achievement-card">
+                        <div class="achievement-icon achievement-silver">
+                            <i class="fas fa-dumbbell"></i>
+                        </div>
+                        <h3>Fitness Master</h3>
+                        <p>Complete 50 fitness activities</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 85%"></div>
+                        </div>
+                        <span>42/50 completed</span>
+                    </div>
+
+                    <div class="achievement-card">
+                        <div class="achievement-icon achievement-bronze">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3>Mindful Beginner</h3>
+                        <p>Complete 10 meditation sessions</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%"></div>
+                        </div>
+                        <span style="color: var(--success-color); font-weight: bold;">Unlocked!</span>
+                    </div>
+
+                    <div class="achievement-card">
+                        <div class="achievement-icon achievement-locked">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <h3>Book Worm</h3>
+                        <p>Read for 30 consecutive days</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 45%"></div>
+                        </div>
+                        <span>14/30 days</span>
+                    </div>
+
+                    <div class="achievement-card">
+                        <div class="achievement-icon achievement-locked">
+                            <i class="fas fa-earlybirds"></i>
+                        </div>
+                        <h3>Early Riser</h3>
+                        <p>Complete morning habits for 21 days</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 30%"></div>
+                        </div>
+                        <span>6/21 days</span>
+                    </div>
+
+                    <div class="achievement-card">
+                        <div class="achievement-icon achievement-locked">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3>Social Butterfly</h3>
+                        <p>Join 5 different habit groups</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 60%"></div>
+                        </div>
+                        <span>3/5 groups</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" style="grid-column: span 2;">
+                <h2 class="section-title"><i class="fas fa-star"></i> Achievement Stats</h2>
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 20px;">
+                    <div style="text-align: center; padding: 15px; background: var(--light-color); border-radius: 8px;">
+                        <div style="font-size: 24px; font-weight: bold; color: var(--primary-color);">3</div>
+                        <div style="font-size: 14px; color: #666;">Unlocked</div>
+                    </div>
+                    <div style="text-align: center; padding: 15px; background: var(--light-color); border-radius: 8px;">
+                        <div style="font-size: 24px; font-weight: bold; color: var(--primary-color);">3</div>
+                        <div style="font-size: 14px; color: #666;">In Progress</div>
+                    </div>
+                    <div style="text-align: center; padding: 15px; background: var(--light-color); border-radius: 8px;">
+                        <div style="font-size: 24px; font-weight: bold; color: var(--primary-color);">85%</div>
+                        <div style="font-size: 14px; color: #666;">Completion Rate</div>
+                    </div>
+                    <div style="text-align: center; padding: 15px; background: var(--light-color); border-radius: 8px;">
+                        <div style="font-size: 24px; font-weight: bold; color: var(--primary-color);">42</div>
+                        <div style="font-size: 14px; color: #666;">Total Points</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" style="grid-column: span 2;">
+                <h2 class="section-title"><i class="fas fa-gift"></i> Recent Unlocks</h2>
+                <div style="margin-top: 20px;">
+                    <div style="display: flex; align-items: center; gap: 15px; padding: 12px 0; border-bottom: 1px solid rgba(0,0,0,0.1);">
+                        <div class="achievement-icon" style="width: 40px; height: 40px; font-size: 16px; background: linear-gradient(to right, #ffd700, #daa520);">
+                            <i class="fas fa-fire"></i>
+                        </div>
+                        <div>
+                            <div style="font-weight: 600;">7-Day Streak</div>
+                            <div style="font-size: 12px; color: #666;">Unlocked 2 days ago</div>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 15px; padding: 12px 0; border-bottom: 1px solid rgba(0,0,0,0.1);">
+                        <div class="achievement-icon" style="width: 40px; height: 40px; font-size: 16px; background: linear-gradient(to right, #cd7f32, #8b4513);">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <div>
+                            <div style="font-weight: 600;">Mindful Beginner</div>
+                            <div style="font-size: 12px; color: #666;">Unlocked 1 week ago</div>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 15px; padding: 12px 0;">
+                        <div class="achievement-icon" style="width: 40px; height: 40px; font-size: 16px; background: linear-gradient(to right, #c0c0c0, #a8a8a8);">
+                            <i class="fas fa-dumbbell"></i>
+                        </div>
+                        <div>
+                            <div style="font-weight: 600;">Fitness Enthusiast</div>
+                            <div style="font-size: 12px; color: #666;">Unlocked 2 weeks ago</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            © 2025 HabitTracker. All rights reserved.
+        </footer>
+    </div>
+
+    <script>
+        // Fake database simulation
+        const fakeDB = {
+            user: {
+                name: localStorage.getItem('userName') || 'Demo User',
+                email: localStorage.getItem('userEmail') || 'user@example.com',
+                theme: localStorage.getItem('selectedTheme') || 'blue'
+            },
+            achievements: JSON.parse(localStorage.getItem('achievements')) || [
+                { id: 1, name: '7-Day Streak', description: 'Complete habits for 7 consecutive days', unlocked: true, progress: 100, type: 'gold' },
+                { id: 2, name: 'Fitness Master', description: 'Complete 50 fitness activities', unlocked: false, progress: 85, type: 'silver' },
+                { id: 3, name: 'Mindful Beginner', description: 'Complete 10 meditation sessions', unlocked: true, progress: 100, type: 'bronze' },
+                { id: 4, name: 'Book Worm', description: 'Read for 30 consecutive days', unlocked: false, progress: 45, type: 'locked' },
+                { id: 5, name: 'Early Riser', description: 'Complete morning habits for 21 days', unlocked: false, progress: 30, type: 'locked' },
+                { id: 6, name: 'Social Butterfly', description: 'Join 5 different habit groups', unlocked: false, progress: 60, type: 'locked' }
+            ]
+        };
+
+        function changeTheme(theme) {
+            document.body.className = `theme-${theme}`;
+            localStorage.setItem('selectedTheme', theme);
+            document.getElementById('profileDropdown').classList.remove('show');
+            showNotification(`Theme changed to ${theme} mode`);
+        }
+
+        function toggleProfileDropdown() {
+            const dropdown = document.getElementById('profileDropdown');
+            dropdown.classList.toggle('show');
+        }
+
+        document.addEventListener('click', function(event) {
+            const dropdown = document.getElementById('profileDropdown');
+            const profileBtn = document.querySelector('.profile-btn');
+            
+            if (!profileBtn.contains(event.target) && !dropdown.contains(event.target)) {
+                dropdown.classList.remove('show');
+            }
+        });
+
+        function showNotification(message) {
+            const existingNotification = document.querySelector('.notification');
+            if (existingNotification) {
+                existingNotification.remove();
+            }
+            
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.innerHTML = `
+                <div class="notification-content">
+                    <i class="fas fa-check-circle"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            if (!document.querySelector('#notification-styles')) {
+                const styles = document.createElement('style');
+                styles.id = 'notification-styles';
+                styles.textContent = `
+                    .notification {
+                        position: fixed;
+                        top: 20px;
+                        right: 20px;
+                        background: var(--card-bg);
+                        color: var(--text-color);
+                        padding: 15px 20px;
+                        border-radius: var(--border-radius);
+                        box-shadow: var(--box-shadow);
+                        z-index: 10000;
+                        border-left: 4px solid var(--primary-color);
+                        animation: slideInRight 0.3s ease;
+                    }
+                    
+                    .notification-content {
+                        display: flex;
+                        align-items: center;
+                        gap: 10px;
+                    }
+                    
+                    .notification-content i {
+                        color: var(--success-color);
+                    }
+                    
+                    @keyframes slideInRight {
+                        from {
+                            transform: translateX(100%);
+                            opacity: 0;
+                        }
+                        to {
+                            transform: translateX(0);
+                            opacity: 1;
+                        }
+                    }
+                `;
+                document.head.appendChild(styles);
+            }
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideInRight 0.3s ease reverse';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        function logout() {
+            localStorage.removeItem('selectedTheme');
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('userEmail');
+            localStorage.removeItem('userName');
+            
+            showNotification('Logged out successfully');
+            
+            setTimeout(() => {
+                window.location.href = 'login.html';
+            }, 1000);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('selectedTheme') || 'blue';
+            document.body.className = `theme-${savedTheme}`;
+            
+            const userEmail = localStorage.getItem('userEmail') || 'user@example.com';
+            const userName = localStorage.getItem('userName') || 'Demo User';
+            
+            const userNameElement = document.querySelector('.user-name');
+            const userEmailElement = document.querySelector('.user-email');
+            const welcomeMessageElement = document.querySelector('.welcome-message');
+            const userAvatars = document.querySelectorAll('.user-avatar');
+            
+            if (userNameElement) userNameElement.textContent = userName;
+            if (userEmailElement) userEmailElement.textContent = userEmail;
+            if (welcomeMessageElement) welcomeMessageElement.textContent = `Welcome back, ${userName.split(' ')[0]}!`;
+            
+            userAvatars.forEach(avatar => {
+                avatar.textContent = userName.charAt(0).toUpperCase();
+            });
+
+            // Save achievements to localStorage
+            localStorage.setItem('achievements', JSON.stringify(fakeDB.achievements));
+        });
+    </script>
+</body>
+</html>
